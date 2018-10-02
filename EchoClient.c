@@ -208,15 +208,6 @@ int main(int argc, char *argv[])
         } else {
             exit(0);
         }
-        /*echoStringLen = strlen(echoString);
-         if(send(sock, echoString, echoStringLen, 0) != echoStringLen)
-         DieWithError("send() sent a different number of bytes than expected!");
-         
-         if ((bytesRcvd = recv(sock, echoBuffer, RCVBUFSIZE - 1, 0)) <= 0)
-         DieWithError("recv() failed or connection closed prematurely");
-         totalBytesRcvd += bytesRcvd; /* Keep tally of total bytes */
-        //echoBuffer[bytesRcvd] = '\0'; /* Terminate the string! */
-        /* Print the echo buffer */
         printf("----------------------------\n");
     }
     
