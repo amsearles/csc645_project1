@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
      exit(1);
      }
     
-    echoServPort = 8000; /* First arg: local port */
+   
     
     /* Create socket for incoming connections */
     if ((servSock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     memset(&echoServAddr, 0, sizeof(echoServAddr)); /* Zero out structure */
     echoServAddr.sin_family = AF_INET; /* Internet address family */
     echoServAddr.sin_addr.s_addr = htonl(INADDR_ANY); /* Any incoming interface */
-    echoServAddr.sin_port = htons(echoServPort); /* Local port */
+    echoServAddr.sin_port = htons(8000); /* Local port */
     
     /* Bind to the local address */
     if (bind(servSock, (struct sockaddr *)&echoServAddr, sizeof(echoServAddr)) < 0)
@@ -51,8 +51,6 @@ int main(int argc, char *argv[])
     /* Mark the socket so it will listen for incoming connections */
     if (listen(servSock, MAXPENDING) < 0)
         DieWithError("listen() failed") ;
-    printf("Server started!\n");
-    printf("Listen on 127.0.0.1:%d\n", echoServPort);
     for (;;) /* Run forever */
     {
         /* Set the size of the in-out parameter */
