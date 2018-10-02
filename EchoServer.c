@@ -16,25 +16,22 @@ void DieWithError(char *errorMessage)
 
 int main(int argc, char *argv[])
 {
-    int servSock; /* Socket descriptor for server */
-    int clntSock; /* Socket descriptor for client */
-    int msgNo = 0;
+    int servSock, clntSock, msgNum = 0, clntNum = 0,login = 0, i, echoStrLen; 
     struct sockaddr_in echoServAddr; /* Local address */
     struct sockaddr_in echoClntAddr; /* Client address */
     unsigned short echoServPort; /* Server port */
     unsigned int clntLen; /* Length of client address data structure */
-    int clientNo = 0,login = 0, i, echoStrLen;
     long recvMsgSize = 1; 
     char users[2][20], passwords[2][20], choice[2], username[100], password[100], recipient[100], sender[100], msg[1000], msgStat[100], echoBuffer[RCVBUFSIZE], sizeBuffer[10];
     strcpy(users[0], "Alice");
     strcpy(users[1], "Bob");
     strcpy(passwords[0], "12345");
-    strcpy(passwords[1], "56789");
-    //if (argc != 2) /* Test for correct number of arguments */
-    /*{
+    strcpy(passwords[1], "12345");
+    if (argc != 2) /* Test for correct number of arguments */
+    {
      fprintf(stderr, "Usage: %s <Server Port>\n", argv[0]) ;
      exit(1);
-     }*/
+     }
     
     echoServPort = 8000; /* First arg: local port */
     
@@ -64,8 +61,8 @@ int main(int argc, char *argv[])
         if ((clntSock = accept(servSock, (struct sockaddr *) &echoClntAddr, &clntLen)) < 0)
             DieWithError("accept() failed");
         /* clntSock is connected to a client! */
-        clientNo++;
-        printf("Client %d connected!\n", clientNo);
+        clntNum++;
+        printf("Client %d connected!\n", clntNum);
         
         if ((recvMsgSize = recv(clntSock, choice, 2, 0)) < 0)
             DieWithError("recv() failed");
@@ -127,9 +124,9 @@ int main(int argc, char *argv[])
             } else if(strcmp(choice, "3")==0){
                 strcpy(echoBuffer, "You have ");
                 if(strcmp(recipient, username)==0){
-                    msgNo+=1;
+                    msgNum+=1;
                     char noS[2];
-                    snprintf(noS, 2, "%d", msgNo);
+                    snprintf(noS, 2, "%d", msgNum);
                     strcat(echoBuffer, noS);
                     strcat(echoBuffer, " message(s)!\n");
                     strcat(echoBuffer, msg);
@@ -141,7 +138,7 @@ int main(int argc, char *argv[])
                 echoBuffer[echoStrLen] = '\0';
                 if(send(clntSock, echoBuffer, echoStrLen, 0) != echoStrLen){
                     DieWithError("send() failed");}
-                msgNo = 0;
+                msgNum = 0;
                 printf("Sent back %s's message!\n", recipient);
             }
         }
