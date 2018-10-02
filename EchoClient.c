@@ -1,11 +1,11 @@
-#include <stdio.h> 
-#include <sys/socket.h> 
-#include <arpa/inet.h> 
-#include <stdlib.h> 
-#include <string.h> 
-#include <unistd.h> 
+#include <stdio.h> /* for printf() and fprintf() */
+#include <sys/socket.h> /* for socket(), connect(), send(), and recv() */
+#include <arpa/inet.h> /* for sockaddr_in and inet_addr() */
+#include <stdlib.h> /* for atoi() */
+#include <string.h> /* for memset() */
+#include <unistd.h> /* for close() */
 
-#define RCVBUFSIZE 1000 
+#define RCVBUFSIZE 1000 /* Size of receive buffer */
 #define MAXPENDING 5
 void DieWithError(char *errorMessage)
 {
@@ -208,6 +208,15 @@ int main(int argc, char *argv[])
         } else {
             exit(0);
         }
+        /*echoStringLen = strlen(echoString);
+         if(send(sock, echoString, echoStringLen, 0) != echoStringLen)
+         DieWithError("send() sent a different number of bytes than expected!");
+         
+         if ((bytesRcvd = recv(sock, echoBuffer, RCVBUFSIZE - 1, 0)) <= 0)
+         DieWithError("recv() failed or connection closed prematurely");
+         totalBytesRcvd += bytesRcvd; /* Keep tally of total bytes */
+        //echoBuffer[bytesRcvd] = '\0'; /* Terminate the string! */
+        /* Print the echo buffer */
         printf("----------------------------\n");
     }
     
@@ -217,3 +226,5 @@ int main(int argc, char *argv[])
     exit(0);
 }
 
+
+            
