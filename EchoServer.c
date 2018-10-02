@@ -65,11 +65,9 @@ int main(int argc, char *argv[])
         if ((recvMsgSize = recv(clntSock, choice, 2, 0)) < 0)
             DieWithError("recv() failed");
         choice[recvMsgSize] = '\0';
-        
-        /* Send received string and receive again until end of transmission */
-        while (recvMsgSize > 0) /* zero indicates end of transmission */
+    
+        while (recvMsgSize > 0) 
         {
-            /* Echo message back to client */
             memset(echoBuffer, 0, RCVBUFSIZE);
             if(login ==1){
                 if ((recvMsgSize = recv(clntSock, choice, 2, 0)) < 0){
